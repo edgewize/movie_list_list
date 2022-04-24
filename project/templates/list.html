@@ -1,0 +1,44 @@
+<!-- templates/index.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="ui header">
+  {{ data.title }}
+</h1>
+
+<div class="ui grid">
+  {% if data.film_list %}
+    {% for item in data.film_list %}
+    <div class="five wide column">
+      <div class="ui card">
+        <div class="image">
+          <img src="https://www.themoviedb.org/t/p/w220_and_h330_face/{{item.poster_path}}" alt="{{ item.title }} poster image">
+        </div>
+        <div class="content">
+          <a class="header">{{item.title}}</a>
+          <div class="meta">
+            <span class="date">{{item.release_date}}</span>
+          </div>
+        </div>
+        {% if not anon_user %}
+        <div class="extra content">
+          <a href="/admin/remove/{{data.id}}/{{item.id}}">
+            <i class="icon minus"></i>
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </div>  
+    {% endfor %}
+  {% endif %}
+  {% if not anon_user %}
+  <div class="five wide column">
+    <button class="circular ui icon button" onclick=window.location.assign("/admin/add/{{data.id}}") >
+      <i class="icon plus"></i>
+    </button>
+  {% endif %}
+  </div>  
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+<!-- templates/index.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="ui header">
+  Create
+</h1>
+<div class="ui grid">
+  <form method="POST" action="{{action}}" class="ui form">
+    <div class="field">
+      <label>Title</label>
+      <input class="input" type="text" name="title"/>
+    </div>
+    <button class="ui button primary" type="submit">Submit</button>
+  </form>   
+</div>
+{% endblock %}

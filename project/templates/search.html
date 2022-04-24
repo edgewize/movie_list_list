@@ -1,0 +1,24 @@
+<!-- templates/index.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="ui header">
+  {% if data.title %}Edit {{data.title}}{% else %}Create{% endif %}
+</h1>
+<div class="ui grid">
+    {% if response %}
+      <div class="content">
+        Add film to {{ data.title}}
+      </div>
+    {% else %}
+      <form method="POST" action="/admin/add/{{ data.id }}" class="ui form">
+        <div class="field">
+          <label>Search a film title</label>
+          <input class="input" type="text" name="search"/>
+        </div>
+        <button class="ui button" type="submit">Submit</button>
+      </form>   
+    {% endif %}
+</div>
+{% endblock %}

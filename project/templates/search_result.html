@@ -1,0 +1,20 @@
+<!-- templates/index.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="ui header">
+  {% if data.title %}Edit {{data.title}}{% else %}Create{% endif %}
+</h1>
+
+  {% for item in results %}
+    <div class="ui segment">
+      <form action="/admin/add/{{data.id}}">
+        <input type="hidden" name="selection" value="{{item.id}}" />
+        <button class="ui button" type="submit">Select</button>
+      </form>
+      {{item.title}}
+    </div>
+  {% endfor %}
+
+{% endblock %}

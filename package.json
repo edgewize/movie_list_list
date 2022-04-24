@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "fomantic-ui": "^2.9.0-beta.279",
+    "gulp": "^4.0.2"
+  },
+  "name": "film_lists",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/do-community/flask_auth_scotch.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/do-community/flask_auth_scotch/issues"
+  },
+  "homepage": "https://github.com/do-community/flask_auth_scotch#readme",
+  "description": ""
+}
