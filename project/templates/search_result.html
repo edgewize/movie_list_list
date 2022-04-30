@@ -1,20 +1,27 @@
 <!-- templates/index.html -->
 
-{% extends "base.html" %}
+{% extends "layout/base.html" %}
 
 {% block content %}
 <h1 class="ui header">
   {% if data.title %}Edit {{data.title}}{% else %}Create{% endif %}
 </h1>
-
-  {% for item in results %}
-    <div class="ui segment">
+<div class="ui items divided">
+  {% from "utils.html" import ui_item with context %}
+  {% for film in results %}
+    {{ ui_item (film) }}
+    <div class="ui icon message">
+      <div class="content">
+        <div class="header">
+          Include on {{data.title}}?
+        </div>
+        <p>Click to add {{ film.title }}.</p>
+      </div>
       <form action="/admin/add/{{data.id}}">
-        <input type="hidden" name="selection" value="{{item.id}}" />
-        <button class="ui button" type="submit">Select</button>
+        <input type="hidden" name="selection" value="{{film.id}}" />
+        <button class="ui icon button positive" type="submit"><i class="ui icon plus"></i></button>
       </form>
-      {{item.title}}
     </div>
   {% endfor %}
-
+</div>
 {% endblock %}

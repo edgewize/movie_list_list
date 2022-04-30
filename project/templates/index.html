@@ -1,73 +1,55 @@
-<!-- templates/index.html -->
-
-{% extends "base.html" %}
+{% extends "layout/base.html" %}
 
 {% block hero %}
-<style>
-  .masthead.segment {
-    min-height: 700px;
-    padding: 1em 0em;
-  }
-  .masthead .logo.item img {
-    margin-right: 1em;
-  }
-  .masthead .ui.menu .ui.button {
-    margin-left: 0.5em;
-  }
-  .masthead h1.ui.header {
-    margin-top: 3em;
-    margin-bottom: 0em;
-    font-size: 4em;
-    font-weight: normal;
-  }
-  .masthead h2 {
-    font-size: 1.7em;
-    font-weight: normal;
-  }
-</style>
-<div class="ui text container">
-  <h1 class="ui inverted header">
-   The Movie List List 
-  </h1>
-  <h2>
-    A site where Taylor &#38; Allyssa share collections of the best cinema has to offer.  
-  </h2>
+<div class="ui inverted vertical masthead center aligned segment">
+  <div class="ui text container">
+    <h1 class="ui inverted header">
+     The Movie List List 
+    </h1>
+    <h2>
+      A place where Taylor &#38; Allyssa share collections of the best cinema has to offer.  
+    </h2>
+  </div>
 </div>
 {%endblock%}
 
 {% block content %}
-<div class="ui items">
+<div class="ui divided items">
 {% for item in data %}
   <div class="item">
-    <div class="ui tiny image">
       {% set first_item = item.film_list|first%}
+      <a class="ui image tiny">
       <img src="https://www.themoviedb.org/t/p/w220_and_h330_face/{{first_item.poster_path}}" alt="{{ first_item.title }} poster image">
-    </div>
+      </a>
+
     <div class="content">
-      <a class="header" href="/film-list/{{item.id}}">{{item.title}}</a>
+      <a class="header" href="/film-list/{{item.id}}">{{ item.title }}</a>
+      <div class="meta">
+          <span class="cinema">Created {{ item.created_at }}</span>
+      </div>
       <div class="description">
-        {{ item.film_list|length }} films in list
+        {{ item.description }}
       </div>
       <div class="extra">
-        <div class="ui right floated primary button" onclick=window.location.assign("/film-list/{{item.id}}")>
-          Go to <i class="right chevron icon"></i>
-        </div>
-        {% if is_authenticated %}
-        <div class="ui label"><a href="/admin/edit/{{item.id}}"><i class="edit icon"></i></a></div>
-        <div class="ui label"><a href="/admin/delete/{{item.id}}"><i class="trash icon"></i></a></div>
-        {% endif %}
-      </div>
+          <div class="ui label"><i class="icon video"></i> {{ item.film_list|length }}</div>
+          <div class="ui label"><i class="globe icon"></i>***</div>
+          <a class="ui right floated button primary" href="/film-list/{{item.id}}")>
+            Read
+          </a>
+       </div>
     </div>
   </div>
+  {% if is_authenticated %}
+    {% from "utils.html" import list_admin_menu with context %}
+    {{ list_admin_menu(item) }}
+  {% endif %}
 {% endfor %}
 </div>
 <div class="ui divider"></div>
   <p>
-    {% if not anon_user %}
-      <button class="ui button circular" onclick=window.location.assign("/admin/create")><i class="icon plus"></i></button>
+    {% if is_authenticated %}
+      <button class="ui button circular" onclick=window.location.assign("/admin/create")><i class="icon plus"></i> New</button>
     {% endif %}
   </p>
 </div>
-
-
 {% endblock %}

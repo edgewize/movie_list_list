@@ -1,0 +1,69 @@
+{% macro ui_form(title, action, fields, form_message="", icon="") %}
+<div class="ui segment">
+    <h1 class="ui icon header">
+        <i class="icon {{ icon }}"></i>
+        <div class="content">
+            {{ title }}
+        </div>
+      </h1>
+    {{ form_message }}
+    <div class="box">
+        <form method="POST" action="{{ action }}" class="ui form">
+            {{ fields }}
+        </form>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro film_list_summary(film_list) %}
+    <span></span>
+{% endmacro %}
+
+{% macro ui_items(tmdb_film_list) %}
+{% if "divided" in kwargs.keys() %}
+{% set divided = kwargs.divided %}
+{% else %}
+{% set divided = false %}
+{% endif %}
+<div class="ui items {% if divided %}divided{% endif %}">
+    {% for film in tmdb_film_list %}
+        {{ ui_item(film) }}
+    {% endfor %}
+</div>
+{% endmacro %}
+
+{% macro ui_item(tmdb_film) %}
+    <div class="item">
+        <div class="image">
+            <img src="https://www.themoviedb.org/t/p/w220_and_h330_face/{{tmdb_film.poster_path}}">
+        </div>
+        <div class="content">
+            <a class="header">{{ tmdb_film.title }}</a>
+            <div class="meta">
+                <span class="cinema"{{ tmdb_film.budget }}</span>
+            </div>
+            <div class="description">
+                {% set max_length = 180 %}
+                <p>{{tmdb_film.overview[:max_length] }}{% if tmdb_film.overview|length > max_length %}...{% endif %}</p>
+            </div>
+            <div class="extra">
+                <div class="ui label">{{tmdb_film.release_date}}</div>
+                <div class="ui label"><i class="globe icon"></i>{{ tmdb_film.vote_average }}</div>
+            </div>
+        </div>
+  </div>
+{% endmacro %}
+
+{% macro list_admin_menu(film_list) %}
+<div class="ui icon message">
+  <div class="content">
+    <div class="header">
+    {{film_list.title}} Admin
+    </div>
+  </div>
+    <button class="ui icon button basic" onclick=window.location.assign("/admin/edit/{{film_list.id}}")><i class="edit icon"></i></button>
+    <button class="ui icon button basic" onclick=window.location.assign("/admin/add/{{film_list.id}}")><i class="plus icon"></i></button>
+    <button class="ui icon button basic" onclick=window.location.assign("/admin/remove/{{film_list.id}}")><i class="minus icon"></i></button>
+    <buttom class="ui icon button negative" onclick=window.location.assign("=/admin/delete/{{film_list.id}}")><i class="trash icon"></i></buttom>    
+  </div>
+{% endmacro %}

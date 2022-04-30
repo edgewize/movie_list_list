@@ -13,5 +13,7 @@ class User(UserMixin, db.Model):
 
 class FilmList(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    created_at = db.Column(db.Date())
     title = db.Column(db.String(251), unique=True)
+    description = db.Column(db.String(9999))
     film_list = db.Column(db.String(999))

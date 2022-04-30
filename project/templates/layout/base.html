@@ -1,0 +1,32 @@
+<!-- templates/base.html -->
+
+<!DOCTYPE html>
+
+
+{% extends "layout/wrapper.html" %}
+{% block page_content %}
+<style>
+  .main.container {
+    margin: 3em 0;
+  }
+  .masthead .ui.menu .ui.button {
+    margin-left: 0.5em;
+  }
+  .masthead h1.ui.header {
+    margin: 1em 0 .5em 0;
+    font-size: 4em;
+    font-weight: normal;
+  }
+  .masthead h2 {
+    margin-bottom:1em;
+    font-size: 1.7em;
+    font-weight: normal;
+  }
+</style>
+{% block hero %}
+{% endblock %}
+<div class="ui main text container">
+  {% block content %}
+  {% endblock %}
+</div>
+{% endblock page_content %}

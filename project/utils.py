@@ -30,3 +30,8 @@ def buildList(list_id: int):
         else:
             item.film_list = [tmdbv3api.Movie().details(item.film_list)]
     return item
+
+
+if __name__ == "__maint__":
+    film = tmdbv3api.Movie().details(92749)
+    print(film)

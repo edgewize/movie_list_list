@@ -1,0 +1,24 @@
+<!-- templates/index.html -->
+
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<h1 class="ui header">
+  Remove from {{data.title}}
+</h1>
+<div class="ui items divided">
+  {% from "utils.html" import ui_item with context %}
+  {% for film in data.film_list %}
+    {{ ui_item (film) }}
+    <div class="ui icon message">
+      <div class="content">
+        <div class="header">
+          Remove from {{data.title}}?
+        </div>
+        <p>Click to remove {{ film.title }}.</p>
+      </div>
+      <a class="ui icon button negative" href="/admin/remove/{{data.id}}/{{film.id}}"><i class="ui icon minus"></i></a>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

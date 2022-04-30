@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, redirect
 from flask_login import login_required
 from .models import FilmList
-from .utils import getListById, searchFilms, getListById
+from .utils import getListById, searchFilms, getListById, buildList
 from . import db
+import datetime
 
 crud = Blueprint("crud", __name__)
 
@@ -12,7 +13,11 @@ crud = Blueprint("crud", __name__)
 def create():
     new_list = None
     if "title" in request.form:
-        new_list = FilmList(title=request.form.get("title"))
+        new_list = FilmList(
+            title=request.form.get("title"),
+            description=request.form.get("description"),
+            created_at=datetime.datetime.now().date(),
+        )
         db.session.add(new_list)
         db.session.commit()
         return redirect(f"/film-list/{new_list.id}")
@@ -42,6 +47,13 @@ def add(list_id):
         return render_template("search.html", data=film_list)
 
 
+@crud.route("/admin/remove/<list_id>", methods=["GET", "POST"])
+@login_required
+def remove_list(list_id):
+    data = buildList(list_id)
+    return render_template("remove.html", data=data)
+
+
 @crud.route("/admin/remove/<list_id>/<film_id>", methods=["GET", "POST"])
 @login_required
 def remove(list_id, film_id):
@@ -57,22 +69,23 @@ def remove(list_id, film_id):
 @login_required
 def edit(list_id):
     film_list = getListById(list_id)
-    if len(request.form) == 2:
+    update = False
+    if request.form.get("title"):
         film_list.title = request.form.get("title")
-        film_list.film_list = request.form.get("film_list")
         db.session.commit()
-        template = "message.html"
-        message = f"Updated {film_list.title}"
+        update = True
+    if request.form.get("description"):
+        film_list.description = request.form.get("description")
+        update = True
+    if update:
+        return redirect(f"/film-list/{list_id}", code=302)
     else:
-        template = "create.html"
-        message = None
-    return render_template(
-        template,
-        data=film_list,
-        action=f"/admin/edit/{list_id}",
-        response=None,
-        message=message,
-    )
+        return render_template(
+            "create.html",
+            data=film_list,
+            action=f"/admin/edit/{list_id}",
+            response=None,
+        )
 
 
 @crud.route("/admin/delete/<list_id>")

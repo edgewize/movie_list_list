@@ -1,24 +1,17 @@
-<!-- templates/index.html -->
+{% extends "layout/form.html" %}
 
-{% extends "base.html" %}
-
-{% block content %}
-<h1 class="ui header">
-  {% if data.title %}Edit {{data.title}}{% else %}Create{% endif %}
-</h1>
-<div class="ui grid">
-    {% if response %}
-      <div class="content">
-        Add film to {{ data.title}}
-      </div>
-    {% else %}
-      <form method="POST" action="/admin/add/{{ data.id }}" class="ui form">
-        <div class="field">
-          <label>Search a film title</label>
-          <input class="input" type="text" name="search"/>
-        </div>
-        <button class="ui button" type="submit">Submit</button>
-      </form>   
-    {% endif %}
+{% set title = "Edit "~data.title%}
+{% set action = "/admin/add/"~data.id %}
+{% set fields %}
+<div class="field">
+  <label>Search a film title</label>
+  <input class="input" type="text" name="search"/>
 </div>
+<button class="ui fluid large submit button" type="submit">Submit</button>
+{% endset %}
+
+{% block form %}
+     {% from "utils.html" import ui_form with context %}
+     {{ ui_form(title, action, fields, "", "search") }}
+
 {% endblock %}
