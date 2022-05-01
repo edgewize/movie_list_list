@@ -2,3 +2,4 @@
 node_modules
 semantic.json
 project/static
+project/db.sqlite
